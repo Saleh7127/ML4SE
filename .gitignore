@@ -1,7 +1,8 @@
 # Environment variables
 .env
 .env.local
-
+abandoned_repos_json/
+repository/
 # Python
 __pycache__/
 *.py[cod]
