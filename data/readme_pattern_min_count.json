@@ -1,0 +1,66 @@
+{
+  "global_sections": [
+    {
+      "id": "intro",
+      "title": "Overview",
+      "purpose": "Explain what the project is and why it exists",
+      "count": 9
+    },
+    {
+      "id": "features",
+      "title": "Features",
+      "purpose": "Highlight main capabilities",
+      "count": 12
+    },
+    {
+      "id": "install",
+      "title": "Installation",
+      "purpose": "Explain how to install",
+      "count": 26
+    },
+    {
+      "id": "usage",
+      "title": "Usage",
+      "purpose": "Show basic usage",
+      "count": 20
+    },
+    {
+      "id": "examples",
+      "title": "Examples",
+      "purpose": "Show extended examples",
+      "count": 12
+    },
+    {
+      "id": "config",
+      "title": "Configuration",
+      "purpose": "Document config options",
+      "count": 4
+    },
+    {
+      "id": "contrib",
+      "title": "Contributing",
+      "purpose": "Explain how to contribute",
+      "count": 14
+    },
+    {
+      "id": "license",
+      "title": "License",
+      "purpose": "State license",
+      "count": 15
+    }
+  ],
+  "proposed_order": [
+    "intro",
+    "features",
+    "install",
+    "usage",
+    "examples",
+    "config",
+    "contrib",
+    "license"
+  ],
+  "meta": {
+    "total_readmes": 20,
+    "min_count": 2
+  }
+}

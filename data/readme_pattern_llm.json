@@ -1,0 +1,172 @@
+{
+  "outline": {
+    "always_present": [
+      {
+        "id": "project_overview",
+        "title": "About / Introduction",
+        "purpose": "Briefly explain what the project is, what it does, and its key value proposition so readers immediately understand the purpose."
+      },
+      {
+        "id": "installation",
+        "title": "Installation",
+        "purpose": "Describe how to install or set up the project, including any package managers, commands, or platform-specific steps required."
+      },
+      {
+        "id": "usage",
+        "title": "Usage / Getting Started",
+        "purpose": "Show how to start using the project after installation, often with basic commands, minimal configuration, or a quickstart example."
+      },
+      {
+        "id": "license",
+        "title": "License",
+        "purpose": "State the license under which the project is distributed and provide any relevant legal information or links."
+      }
+    ],
+    "very_common": [
+      {
+        "id": "features",
+        "title": "Features",
+        "purpose": "List the main capabilities and highlights of the project to help users quickly assess whether it fits their needs."
+      },
+      {
+        "id": "examples",
+        "title": "Examples",
+        "purpose": "Provide concrete code or CLI examples that demonstrate common or advanced usage patterns."
+      },
+      {
+        "id": "requirements_dependencies",
+        "title": "Requirements / Dependencies",
+        "purpose": "Detail system requirements, external services, and library dependencies needed for the project to function correctly."
+      },
+      {
+        "id": "configuration",
+        "title": "Configuration / Setup Details",
+        "purpose": "Explain how to configure the project beyond basic installation, such as environment variables, config files, and presets."
+      },
+      {
+        "id": "api_reference",
+        "title": "API / Reference",
+        "purpose": "Document public interfaces such as functions, classes, endpoints, or CLI options for more in-depth integration."
+      },
+      {
+        "id": "contributing",
+        "title": "Contributing",
+        "purpose": "Explain how others can contribute, including guidelines, workflows, and any requirements for pull requests or issues."
+      },
+      {
+        "id": "support_help",
+        "title": "Support / Help / Troubleshooting",
+        "purpose": "Describe how users can get help, report bugs, or troubleshoot common issues."
+      },
+      {
+        "id": "roadmap",
+        "title": "Roadmap / Future Plans",
+        "purpose": "Outline planned features, upcoming changes, and the long-term direction of the project."
+      },
+      {
+        "id": "toc",
+        "title": "Table of Contents",
+        "purpose": "Provide an overview of the README structure with links to sections for easier navigation, especially in longer documents."
+      }
+    ],
+    "optional": [
+      {
+        "id": "screenshots_demo",
+        "title": "Screenshots / Demo",
+        "purpose": "Show visual or interactive demonstrations of the project to give users an immediate feel for the UI or behavior."
+      },
+      {
+        "id": "project_structure",
+        "title": "Project Structure",
+        "purpose": "Describe the layout of the repository, important directories, and how the codebase is organized."
+      },
+      {
+        "id": "advanced_usage",
+        "title": "Advanced Usage",
+        "purpose": "Cover more complex, power-user scenarios, integrations, or performance tuning beyond basic usage."
+      },
+      {
+        "id": "performance",
+        "title": "Performance",
+        "purpose": "Highlight performance characteristics, benchmarks, and tips for achieving optimal speed or scalability."
+      },
+      {
+        "id": "testing",
+        "title": "Testing",
+        "purpose": "Explain how to run tests, what test frameworks are used, and any conventions for writing new tests."
+      },
+      {
+        "id": "cli_gui_tools",
+        "title": "CLI / GUI Tools",
+        "purpose": "Document any command-line interfaces, graphical tools, or helper scripts that accompany the project."
+      },
+      {
+        "id": "examples_projects",
+        "title": "Example Projects / Integrations",
+        "purpose": "Link to or describe complete example projects or integrations that show the project in a real-world context."
+      },
+      {
+        "id": "acknowledgments_credits",
+        "title": "Acknowledgments / Credits",
+        "purpose": "Thank contributors, upstream projects, or organizations and attribute any third-party assets or inspiration."
+      },
+      {
+        "id": "contact_author",
+        "title": "Contact / Author Information",
+        "purpose": "Provide maintainer or author contact details and preferred communication channels."
+      },
+      {
+        "id": "similar_projects",
+        "title": "Similar Projects / Alternatives",
+        "purpose": "Mention related or alternative projects for users exploring the ecosystem or comparing solutions."
+      },
+      {
+        "id": "limitations_caveats",
+        "title": "Limitations / Caveats",
+        "purpose": "Call out known constraints, trade-offs, or edge cases users should understand before adopting the project."
+      },
+      {
+        "id": "branding_assets",
+        "title": "Logos / Branding / References",
+        "purpose": "Include project logos, branding guidelines, or references used in the project’s visual identity."
+      },
+      {
+        "id": "company_info",
+        "title": "Company / Organization Information",
+        "purpose": "Describe the company or organization behind the project, including links and services offered, if relevant."
+      },
+      {
+        "id": "funding_donations",
+        "title": "Funding / Sponsorship / Donations",
+        "purpose": "Explain how users can financially support the project (e.g., sponsorships, donations, or funding platforms)."
+      }
+    ]
+  },
+  "template": [
+    "Project Title",
+    "About / Introduction",
+    "Features",
+    "Table of Contents",
+    "Screenshots / Demo",
+    "Requirements / Dependencies",
+    "Installation",
+    "Configuration / Setup",
+    "Usage / Getting Started",
+    "Examples",
+    "API / Reference",
+    "Advanced Usage",
+    "Project Structure",
+    "Performance",
+    "Testing",
+    "Roadmap",
+    "Support / Help / Troubleshooting",
+    "Contributing",
+    "Acknowledgments / Credits",
+    "Similar Projects / Alternatives",
+    "Limitations / Caveats",
+    "Contact / Author Information",
+    "License",
+    "Company / Organization Information",
+    "Funding / Sponsorship / Donations"
+  ]
+}
