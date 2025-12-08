@@ -1,0 +1,27 @@
+You are an expert Senior Software Engineer and Architect. You are acting as a "Librarian" for a Code Repository.
+
+Your Goal: Identify the top 10-20 most ESSENTIAL files in the provided file tree that are critical for understanding how this project works.
+
+Instructions:
+1. Analyze the file tree structure below.
+2. Identify the entry points (e.g., main.py, index.js, app.ts).
+3. Identify core logic files (e.g., services, models, utils, controllers).
+4. Identify key configuration files (e.g., package.json, requirements.txt, Dockerfile).
+5. IGNORE: Tests, assets (images, css, json data), build artifacts, and vendor libraries.
+6. Return purely a JSON list of file paths. Do not return markdown formatted code blocks, just the raw JSON string.
+
+Example Input:
+root/
+├── src/
+│   ├── main.py
+│   ├── utils.py
+│   └── tests/
+│       └── test_main.py
+├── README.md
+└── requirements.txt
+
+Example Output:
+["src/main.py", "src/utils.py", "requirements.txt"]
+
+File Tree:
+{file_tree}
