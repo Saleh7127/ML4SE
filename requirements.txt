@@ -10,4 +10,6 @@ langchain-text-splitters
 langchain-community
 requests
 python-dotenv
+bert_score
+rouge
 

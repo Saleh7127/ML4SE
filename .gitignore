@@ -4,6 +4,7 @@
 abandoned_repos_json/
 repositories/
 knowledge_base/
+readmes/
 # Python
 __pycache__/
 *.py[cod]
