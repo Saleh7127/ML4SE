@@ -28,13 +28,15 @@ Create a JSON `ReadmePlan` with only the sections that are actually relevant.
    * `project_structure` → meaningful directory structure
    * `tests_ci` → tests exist
    * `screenshots_demos` → images/demos present
-5. Output must be **strict JSON only**, no explanations.
+5. **For each section, provide specific instructions:**
+   * Tell the writer exactly which fields from the profile to use (e.g., `install_methods`, `commands`, `key_features`).
+   * **CRITICAL**: Explicitly state what should NOT be included to avoid overlap with other sections.
+   * *Example*: "Include the `pip install` command from `install_methods`. Do NOT mention usage commands here - those belong in the Usage section."
+6. Output must be **strict JSON only**, no explanations.
 
 **Output (JSON):**
-{{
-  "sections": [
-    {{ "id": "intro", "enabled": true, "title": "Introduction" }},
-    ...
-  ]
-}}
+Return a JSON object matching the `ReadmePlan` schema with:
+- `sections`: Array of section objects
+- Each section must have: `id`, `enabled`, `title` (optional), and `instructions` (optional but recommended)
+
 Return ONLY JSON.

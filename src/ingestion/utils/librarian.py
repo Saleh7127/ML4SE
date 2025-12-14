@@ -18,7 +18,7 @@ def identify_essential_files(file_tree_str: str) -> list[str]:
         input_variables=["file_tree"]
     )
 
-    llm = ChatOpenAI(temperature=0.3, model_name="gpt-5.1")
+    llm = ChatOpenAI(temperature=0.3, model_name="gpt-4o-mini")
 
     chain = prompt | llm
 

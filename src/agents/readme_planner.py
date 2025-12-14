@@ -1,6 +1,7 @@
 import os
 import json
 from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import PromptTemplate
 from src.models.repo_profile import RepoProfile
 from src.models.readme_plan import ReadmePlan
@@ -9,20 +10,20 @@ class ReadmePlanner:
     def __init__(self, model_name: str = "gpt-5.1"):
         self.llm = ChatOpenAI(model=model_name, temperature=0.2)
         
-        # Load prompt
-        prompt_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "prompts/readme_planner.txt")
+        # New prompt path
+        prompt_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "prompts/planner_prompt.txt")
         with open(prompt_path, "r") as f:
             self.prompt_template = f.read()
 
-        # Load Pattern Library
+        # Load Pattern Library (Shared with original)
+        # Path logic: agents -> src_orchestrator -> root -> data -> file
         data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "data", "readme_pattern_llm.json")
         with open(data_path, "r") as f:
             self.pattern_library = json.load(f)
 
     def plan(self, profile: RepoProfile) -> ReadmePlan:
-        print(f"[{profile.name}] 2. Readme Planner running...")
+        print(f"[{profile.name}] Orchestrator Planner running...")
         
-        # Prepare inputs
         profile_json = profile.model_dump_json()
         pattern_library_str = json.dumps(self.pattern_library, indent=2)
 
@@ -39,6 +40,5 @@ class ReadmePlanner:
                 "pattern_library_json": pattern_library_str
             })
         except Exception as e:
-            print(f"Readme planning failed: {e}")
-            # Return empty plan or default
+            print(f"Planning failed: {e}")
             return ReadmePlan(sections=[])

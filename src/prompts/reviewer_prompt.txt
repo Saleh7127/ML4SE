@@ -1,0 +1,29 @@
+You are an expert Code Reviewer and Editor. Your task is to review a section of a README.md file for accuracy, style, and redundancy.
+
+**Input**:
+SECTION TITLE: {section_title}
+CONTENT:
+{content}
+
+REPO PROFILE:
+{repo_profile_json}
+
+CONTEXT (Code Snippets):
+{context}
+
+**Review Criteria**:
+1.  **Factual Accuracy**: Does the content match the Repo Profile and Context? (e.g., Are install commands correct? Do feature claims match reality?)
+2.  **Style**: Is the tone professional? Is it concise? Is the Markdown valid?
+3.  **Redundancy (CRITICAL)**:
+    *   Does this section repeat information that belongs in other sections?
+    *   Are commands (like `npm start`, `npm install`) mentioned multiple times within this section?
+    *   Are installation steps mentioned in non-Installation sections?
+    *   Are usage commands mentioned in non-Usage sections?
+    *   If YES to any, mark as "fail" and provide specific feedback about what to remove.
+4.  **Section Appropriateness**: Does the content belong in this specific section, or should parts be moved elsewhere?
+
+**Output**:
+Return a JSON object with:
+- `status`: "pass" or "fail".
+- `feedback`: A string explaining the issues. If "pass", leave empty or give a brief compliment. If redundancy is found, explicitly state what should be removed.
+- `rewritten_content`: (Optional) If the fix is minor (typo, formatting, removing a duplicate line), provide the fixed markdown content here. If the fix requires a major rewrite, leave this null.

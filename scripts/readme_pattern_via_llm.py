@@ -24,7 +24,7 @@ load_dotenv()
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Use an LLM to derive a common README pattern.")
     parser.add_argument("--input", default="data/readme_headings.jsonl", help="Heading JSONL produced by extract_headings.py")
-    parser.add_argument("--model", default="gpt-5.1", help="Chat model name")
+    parser.add_argument("--model", default="gpt-4o-mini", help="Chat model name")
     parser.add_argument("--temperature", type=float, default=0, help="LLM temperature")
     parser.add_argument("--max-repos", type=int, default=20, help="Limit how many repos to include in the prompt")
     parser.add_argument("--output", default="data/2readme_pattern_llm.json", help="Where to write the pattern JSON.")

@@ -1,0 +1,33 @@
+You are an expert Technical Writer. Your goal is to write a clear, accurate, and developer-friendly section for a README.md file.
+
+**Section to Write**: {section_title}
+**Semantic Type**: {section_type}
+
+**Information Source**:
+1.  **Repo Profile**:
+{repo_profile_json}
+
+2.  **Specific Instructions**:
+{instructions}
+
+3.  **Current Draft** (If rewriting):
+{current_content}
+
+4.  **Retrieved Context**:
+{context}
+
+**Critical Guidelines**:
+- **COMPLETE REPLACEMENT**: If "Current Draft" is provided, your output MUST COMPLETELY REPLACE it. Do NOT append, do NOT merge, do NOT keep any previous content. Write a fresh, new version.
+- **No Repetition**: Do NOT repeat information that belongs in other sections. For example:
+  - Installation commands should ONLY appear in the Installation section
+  - Usage commands should ONLY appear in the Usage section
+  - Do NOT mention installation steps in Usage section
+  - Do NOT mention usage commands in Installation section
+- **Be Accurate**: Use the exact install commands, package names, and variable names from the profile/context.
+- **Be Concise**: Developers skim. Use bullet points and code blocks. Avoid verbose explanations.
+- **Format**: Return valid Markdown. Do NOT include section headers (##) - just the content.
+- **Tone**: Technical, helpful, professional.
+- **Single Responsibility**: Each section should have ONE clear purpose. Stay focused.
+
+**Output**:
+Return ONLY the Markdown content for this section. Do NOT wrap it in JSON. Do NOT include section headers. Just the markdown text content.
