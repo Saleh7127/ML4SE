@@ -1,16 +1,15 @@
 import operator
 import sys
 import os
-sys.path.append(os.getcwd()) # Ensure root is in path to import src
+sys.path.append(os.getcwd())
 from typing import TypedDict, Annotated, List, Dict, Any, Union
 from langgraph.graph import StateGraph, END, START
 from langgraph.types import Send
 
-# Import Models
+from langgraph.types import Send
+
 from src.models.repo_profile import RepoProfile
 from src.models.readme_plan import ReadmePlan, ReadmeSectionResult as ReadmeSection
-
-# Import Unified Agents
 from src.agents.orchestrator import Orchestrator, OrchestratorDecision
 from src.agents.repo_profiler import UnifiedRepoProfiler
 from src.agents.readme_planner import ReadmePlanner
@@ -18,30 +17,25 @@ from src.agents.writer_core import CoreWriter
 from src.agents.writer_optional import OptionalWriter
 from src.agents.reviewer import Reviewer
 from src.agents.aggregator import Aggregator
+from src.ingestion.utils.file_scanner import generate_file_tree
+
 
 from dotenv import load_dotenv
 load_dotenv()
-# --- State ---
+
 class WorkflowState(TypedDict):
-    # Context
     repo_name: str
     repo_path: str
     
-    # Artifacts
-    profile: RepoProfile | None
     plan: ReadmePlan | None
-    
-    # Content & Status
     sections_content: Annotated[Dict[str, str], lambda x, y: {**x, **y}]
     section_status: Annotated[Dict[str, str], lambda x, y: {**x, **y}] # 'pending', 'written', 'review_pending', 'pass', 'fail'
     review_feedback: Annotated[Dict[str, str], lambda x, y: {**x, **y}]
     
-    # Internal State
     iteration: int
     decision: OrchestratorDecision | None
     phase: str # PROFILE, PLAN, EXECUTION
-
-# --- Nodes ---
+    section_retries: Annotated[Dict[str, int], lambda x, y: {**x, **y}]
 
 def orchestrator_node(state: WorkflowState):
     agent = Orchestrator()
@@ -50,10 +44,7 @@ def orchestrator_node(state: WorkflowState):
 
 def profiler_node(state: WorkflowState):
     agent = UnifiedRepoProfiler()
-    # In a real app, file_tree generation logic would be here or passed in.
-    # For now we assume we can generate it or it mock it.
-    # We will use the existing file scanner from src if available
-    from src.ingestion.utils.file_scanner import generate_file_tree
+
     file_tree = generate_file_tree(state["repo_path"], max_depth=2)
     
     profile = agent.profile(state["repo_name"], file_tree)
@@ -62,7 +53,6 @@ def profiler_node(state: WorkflowState):
 def planner_node(state: WorkflowState):
     agent = ReadmePlanner()
     plan = agent.plan(state["profile"])
-    # Initialize status
     status = {s.id: "pending" for s in plan.sections if s.enabled}
     return {"plan": plan, "section_status": status, "phase": "EXECUTION"}
 
@@ -85,8 +75,6 @@ def writer_dispatcher(state: WorkflowState):
             else:
                 tasks.append(Send("optional_writer", {"section": section, "state": state}))
     return tasks
-
-# Writer Node Wrapper (Shared logic)
 class WriterInput(TypedDict):
     section: ReadmeSection
     state: WorkflowState
@@ -97,7 +85,7 @@ def core_writer_node(input: WriterInput):
     agent = CoreWriter()
     
     instructions = (section.instructions or "") + "\n" + (state["decision"].instructions or "")
-    # Add review feedback if any
+    instructions = (section.instructions or "") + "\n" + (state["decision"].instructions or "")
     feedback = state["review_feedback"].get(section.id, "")
     if feedback:
         instructions += f"\n\nCRITICAL: Previous review feedback - {feedback}\n"
@@ -128,7 +116,7 @@ def optional_writer_node(input: WriterInput):
 
 def reviewer_dispatcher(state: WorkflowState):
     decision = state["decision"]
-    targets = decision.target_sections # Sections to review
+    targets = decision.target_sections
     tasks = []
     plan = state["plan"]
     
@@ -149,16 +137,29 @@ def reviewer_node(input: WriterInput):
     if result.status == "fail":
         print(f"    Feedback: {result.feedback}")
     
-    new_status = result.status # pass/fail
+    new_status = result.status
     
-    return {
-        "section_status": {section.id: new_status},
-        "review_feedback": {section.id: result.feedback}
-    }
+    # Handle Retries
+    retries_map = state.get("section_retries", {})
+    current_retries = retries_map.get(section.id, 0)
+    
+    updates = {}
+    
+    if new_status == "fail":
+        current_retries += 1
+        updates["section_retries"] = {section.id: current_retries}
+        
+        if current_retries >= 3:
+            print(f"[{state['repo_name']}] Section '{section.id}' failed {current_retries} times. Max retries reached. Forcing PASS.")
+            new_status = "pass"
+    
+    updates["section_status"] = {section.id: new_status}
+    updates["review_feedback"] = {section.id: result.feedback}
+    
+    return updates
 
 def aggregator_node(state: WorkflowState):
     agent = Aggregator()
-    # Prepare ordered map
     sections = {}
     for s in state["plan"].sections:
         if s.id in state["sections_content"]:
@@ -166,7 +167,6 @@ def aggregator_node(state: WorkflowState):
             
     final_md = agent.aggregate(sections)
     
-    # Save
     output_dir = os.path.join(os.getcwd(), "readmes", state["repo_name"])
     os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, "README.md")
@@ -174,9 +174,9 @@ def aggregator_node(state: WorkflowState):
         f.write(final_md)
         
     print(f"README generated at: {output_path}")
-    return {"iteration": state["iteration"] + 1} # Just to mark progress
+    return {"iteration": state["iteration"] + 1}
 
-# --- Routing ---
+
 
 def route_orchestrator(state: WorkflowState):
     decision = state["decision"].decision
@@ -185,15 +185,15 @@ def route_orchestrator(state: WorkflowState):
     elif decision == "PLAN":
         return "planner"
     elif decision == "DELEGATE":
-        return writer_dispatcher(state) # Dynamic fan-out
+        return writer_dispatcher(state)
     elif decision == "REVIEW":
-        return reviewer_dispatcher(state) # Dynamic fan-out
+        return reviewer_dispatcher(state)
     elif decision == "FINISH":
         return "aggregator"
     else:
         return END
 
-# --- Graph ---
+
 
 workflow = StateGraph(WorkflowState)
 
@@ -222,8 +222,7 @@ workflow.add_conditional_edges(
 app = workflow.compile()
 
 if __name__ == "__main__":
-    # Test Run
-    repo_name = "ZeroxyDev__Random-Chat-App"
+    repo_name = "n8henrie__jupyter-black"
     repo_path = os.path.join(os.getcwd(), "data", "repositories", repo_name)
     
     if not os.path.exists(repo_path):
@@ -237,7 +236,8 @@ if __name__ == "__main__":
         "iteration": 0,
         "sections_content": {},
         "section_status": {},
-        "review_feedback": {}
+        "review_feedback": {},
+        "section_retries": {}
     }
     
     print("Starting Orchestrator V2...")

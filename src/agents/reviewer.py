@@ -15,7 +15,7 @@ class ReviewResult(BaseModel):
 
 class Reviewer:
     def __init__(self, model_name: str = "gpt-5.1"):
-        self.llm = ChatOpenAI(model=model_name, temperature=0.0)
+        self.llm = ChatOpenAI(model=model_name, temperature=0.1)
         
         prompt_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "prompts/reviewer_prompt.txt")
         with open(prompt_path, "r") as f:
@@ -24,7 +24,6 @@ class Reviewer:
     def review(self, profile: RepoProfile, section: str, content: str) -> ReviewResult:
         print(f"[{profile.name}] Unified Reviewer checking '{section}'...")
         
-        # 1. Retrieve Context to verify facts
         context = ""
         try:
             store = get_vector_store(profile.name)
@@ -34,7 +33,6 @@ class Reviewer:
         except Exception as e:
             context = "Verification context unavailable."
 
-        # 2. Review
         prompt = PromptTemplate(
             template=self.prompt_template,
             input_variables=["section_title", "content", "repo_profile_json", "context"]

@@ -8,7 +8,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 class Aggregator:
     def __init__(self, model_name: str = "gpt-5.1"):
-        self.llm = ChatOpenAI(model=model_name, temperature=0.0)
+        self.llm = ChatOpenAI(model=model_name, temperature=0.1)
         
         prompt_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "prompts/aggregator_prompt.txt")
         with open(prompt_path, "r") as f:
@@ -63,9 +63,6 @@ class Aggregator:
     def aggregate(self, sections: Dict[str, str]) -> str:
         print("Aggregating final README...")
         
-        # Format sections for the prompt
-        # We assume sections is a dict { "intro": "content", "install": "content" }
-        # The prompt sees a JSON string of this.
         sections_str = json.dumps(sections, indent=2)
 
         prompt = PromptTemplate(
@@ -79,11 +76,9 @@ class Aggregator:
             result = chain.invoke({"sections_json": sections_str})
             content = result.content
             
-            # Post-process to remove obvious duplicates
             content = self._deduplicate_commands(content)
             
             return content
         except Exception as e:
             print(f"Aggregation failed: {e}")
-            # Fallback to simple concatenation
             return "\n\n".join(sections.values())

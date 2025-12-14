@@ -32,7 +32,6 @@ def generate_file_tree(start_path: str, max_depth: int = 2) -> str:
             return
 
         try:
-            # Sort for consistent output: directories first, then files
             items = sorted(os.listdir(dir_path), key=lambda x: (not (dir_path / x).is_dir(), x.lower()))
         except PermissionError:
             return

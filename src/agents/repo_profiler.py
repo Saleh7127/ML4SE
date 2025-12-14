@@ -11,9 +11,7 @@ from src.vector_store.store import get_retriever, get_vector_store
 
 class UnifiedRepoProfiler:
     def __init__(self, model_name: str = "gpt-5.1"):
-        # Using a stronger model for the Unified Task if possible, or fallback to gpt-3.5-turbo/gpt-4
-        # User config usually defaults.
-        self.llm = ChatOpenAI(model=model_name, temperature=0.0)
+        self.llm = ChatOpenAI(model=model_name, temperature=0.3)
         
         prompt_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "prompts/unified_profiler_prompt.txt")
         with open(prompt_path, "r") as f:
@@ -22,26 +20,21 @@ class UnifiedRepoProfiler:
     def profile(self, repo_name: str, file_tree: str) -> RepoProfile:
         print(f"[{repo_name}] Orchestrator Profiler running...")
         
-        # 1. Retrieve Context
         context = ""
         try:
             store = get_vector_store(repo_name)
             retriever = get_retriever(store)
-            # Broad query to catch Installation, Usage, and Config
             docs = retriever.invoke("installation instructions usage examples configuration settings main features")
-            # Limit context to avoid token overflow, but provide enough common chunks
             context = "\n\n".join([f"...{d.page_content}..." for d in docs[:5]])
         except Exception as e:
             print(f"Vector Store access failed: {e}")
             context = "Vector store unavailable."
 
-        # 2. Invoke LLM
         prompt = PromptTemplate(
             template=self.prompt_template,
             input_variables=["repo_name", "file_tree", "context"]
         )
         
-        # We reuse the existing RepoProfile model which covers all fields
         chain = prompt | self.llm.with_structured_output(RepoProfile)
         
         try:
@@ -56,7 +49,6 @@ class UnifiedRepoProfiler:
             return profile
         except Exception as e:
             print(f"Profiling failed: {e}")
-            # Return empty/fallback profile
             return RepoProfile(
                 name=repo_name,
                 type="Unknown",
