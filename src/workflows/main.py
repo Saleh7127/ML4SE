@@ -1,6 +1,12 @@
+# python src/workflows/main.py --repo_name ThatGuyJacobee__Elite-Music  --plan my_plan.json
+
 import operator
 import sys
 import os
+import time
+import json
+from langchain_core.callbacks import BaseCallbackHandler
+from langchain_core.outputs import LLMResult
 sys.path.append(os.getcwd())
 from typing import TypedDict, Annotated, List, Dict, Any, Union
 from langgraph.graph import StateGraph, END, START
@@ -27,6 +33,7 @@ class WorkflowState(TypedDict):
     repo_name: str
     repo_path: str
     
+    profile: RepoProfile | None
     plan: ReadmePlan | None
     sections_content: Annotated[Dict[str, str], lambda x, y: {**x, **y}]
     section_status: Annotated[Dict[str, str], lambda x, y: {**x, **y}] # 'pending', 'written', 'review_pending', 'pass', 'fail'
@@ -36,6 +43,19 @@ class WorkflowState(TypedDict):
     decision: OrchestratorDecision | None
     phase: str # PROFILE, PLAN, EXECUTION
     section_retries: Annotated[Dict[str, int], lambda x, y: {**x, **y}]
+
+class TokenCountingCallback(BaseCallbackHandler):
+    def __init__(self):
+        self.total_tokens = 0
+        self.prompt_tokens = 0
+        self.completion_tokens = 0
+
+    def on_llm_end(self, response: LLMResult, **kwargs):
+        if response.llm_output and "token_usage" in response.llm_output:
+            usage = response.llm_output["token_usage"]
+            self.total_tokens += usage.get("total_tokens", 0)
+            self.prompt_tokens += usage.get("prompt_tokens", 0)
+            self.completion_tokens += usage.get("completion_tokens", 0)
 
 def orchestrator_node(state: WorkflowState):
     agent = Orchestrator()
@@ -222,20 +242,54 @@ workflow.add_conditional_edges(
 app = workflow.compile()
 
 if __name__ == "__main__":
-    repo_name = "n8henrie__jupyter-black"
+    import argparse
+    
+    parser = argparse.ArgumentParser(description="Orchestrator V2 for README Generation")
+    parser.add_argument("--repo_name", type=str, required=True, help="Name of the repository directory in data/repositories")
+    parser.add_argument("--plan", type=str, help="Path to a JSON file containing the ReadmePlan")
+    
+    args = parser.parse_args()
+    
+    repo_name = args.repo_name
     repo_path = os.path.join(os.getcwd(), "data", "repositories", repo_name)
     
     if not os.path.exists(repo_path):
         print(f"Error: Repository path does not exist: {repo_path}")
         print(f"Please ensure the repository is cloned to: data/repositories/{repo_name}")
         sys.exit(1)
+        
+    # Load Plan if provided
+    initial_plan = None
+    initial_section_status = {}
+    
+    if args.plan:
+        if not os.path.exists(args.plan):
+            print(f"Error: Plan file not found: {args.plan}")
+            sys.exit(1)
+            
+        try:
+            with open(args.plan, "r") as f:
+                plan_data = json.load(f)
+            
+            # Use pydantic model to validate and parse
+            # Allowing for simple dict input, ensuring it matches structure
+            initial_plan = ReadmePlan(**plan_data)
+            
+            # Auto-populate status for enabled sections
+            initial_section_status = {s.id: "pending" for s in initial_plan.sections if s.enabled}
+            print(f" Loaded User Plan with {len(initial_section_status)} sections.")
+            
+        except Exception as e:
+            print(f"Error loading plan: {e}")
+            sys.exit(1)
     
     initial_state = {
         "repo_name": repo_name,
         "repo_path": repo_path,
         "iteration": 0,
+        "plan": initial_plan,
         "sections_content": {},
-        "section_status": {},
+        "section_status": initial_section_status,
         "review_feedback": {},
         "section_retries": {}
     }
@@ -243,5 +297,37 @@ if __name__ == "__main__":
     print("Starting Orchestrator V2...")
     print(f"Repository: {repo_name}")
     print(f"Path: {repo_path}")
-    for event in app.stream(initial_state):
+    if initial_plan:
+        print("Mode: User-Provided Plan (Skipping Planner)")
+    
+    start_time = time.time()
+    token_cb = TokenCountingCallback()
+    
+    # Run with callback
+    for event in app.stream(initial_state, config={"callbacks": [token_cb]}):
         pass
+            
+    end_time = time.time()
+    duration = end_time - start_time
+    
+    # Generate Report
+    report = {
+        "repo_name": repo_name,
+        "duration_seconds": round(duration, 2),
+        "total_tokens": token_cb.total_tokens,
+        "prompt_tokens": token_cb.prompt_tokens,
+        "completion_tokens": token_cb.completion_tokens,
+    }
+    
+    output_dir = os.path.join(os.getcwd(), "readmes", repo_name)
+    os.makedirs(output_dir, exist_ok=True)
+    report_path = os.path.join(output_dir, "report.json")
+    
+    with open(report_path, "w") as f:
+        json.dump(report, f, indent=2)
+        
+    print("-" * 30)
+    print(f"Performance Report saved to: {report_path}")
+    print(f"Time Taken: {duration:.2f}s")
+    print(f"Total Tokens: {token_cb.total_tokens}")
+    print("-" * 30)

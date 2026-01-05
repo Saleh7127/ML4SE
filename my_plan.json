@@ -1,0 +1,82 @@
+{
+  "sections": [
+    {
+      "id": "overview",
+      "enabled": true,
+      "title": "Elite Music",
+      "instructions": "Provide a brief description of the Discord music bot, its purpose, and core technologies used."
+    },
+    {
+      "id": "features",
+      "enabled": true,
+      "title": "Features",
+      "instructions": "List the main features of the bot in bullet points."
+    },
+    {
+      "id": "installation",
+      "enabled": true,
+      "title": "Installation",
+      "instructions": "Describe installation steps including prerequisites and setup instructions."
+    },
+    {
+      "id": "prerequisites",
+      "enabled": true,
+      "title": "Prerequisites",
+      "instructions": "List required software, tools, and accounts needed to run the bot."
+    },
+    {
+      "id": "setup",
+      "enabled": true,
+      "title": "Setup",
+      "instructions": "Explain how to download, configure, and start the bot locally."
+    },
+    {
+      "id": "youtube-token",
+      "enabled": true,
+      "title": "YouTube Token Setup (Optional)",
+      "instructions": "Explain how to configure a YouTube token to improve extractor reliability."
+    },
+    {
+      "id": "docker",
+      "enabled": true,
+      "title": "Docker Installation",
+      "instructions": "Provide instructions for running the bot using Docker and Docker Compose."
+    },
+    {
+      "id": "optional-features",
+      "enabled": true,
+      "title": "Optional Features",
+      "instructions": "Describe optional features that can be enabled via environment variables."
+    },
+    {
+      "id": "plex",
+      "enabled": true,
+      "title": "Plex Media Server Playback",
+      "instructions": "Explain how to enable and configure Plex Media Server integration."
+    },
+    {
+      "id": "dj-mode",
+      "enabled": true,
+      "title": "DJ Mode",
+      "instructions": "Describe how to enable DJ Mode and configure the DJ role."
+    },
+    {
+      "id": "support",
+      "enabled": true,
+      "title": "Support",
+      "instructions": "Provide links and guidance for getting help, reporting bugs, or joining the support community."
+    },
+    {
+      "id": "related-project",
+      "enabled": true,
+      "title": "Elite Bot",
+      "instructions": "Mention the related verified multi-purpose Elite Bot with relevant links."
+    },
+    {
+      "id": "license",
+      "enabled": true,
+      "title": "License",
+      "instructions": "State the project license and provide a reference link."
+    }
+  ]
+}

@@ -2,6 +2,9 @@ import argparse
 import os
 from rouge import Rouge
 
+
+# python src/evaluation/evaluate_readme.py --repo ThatGuyJacobee__Elite-Music --gen readmes/ThatGuyJacobee__Elite-Music/README.md --ref data/readmes/ThatGuyJacobee__Elite-Music.md
+
 def load_text(path):
     if not os.path.exists(path):
         return None
