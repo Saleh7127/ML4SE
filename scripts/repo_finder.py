@@ -24,7 +24,7 @@ import requests
 
 
 
-GITHUB_TOKEN = "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"
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 if not GITHUB_TOKEN:
     print("ERROR: Please set GITHUB_TOKEN env var first (export GITHUB_TOKEN=...).")
     sys.exit(1)
