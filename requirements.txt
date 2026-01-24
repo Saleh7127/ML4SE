@@ -12,4 +12,7 @@ requests
 python-dotenv
 bert_score
 rouge
-
+numpy
+pandas
+matplotlib
+seaborn

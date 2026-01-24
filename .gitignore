@@ -33,3 +33,7 @@ knowledge_base_old/
 readmes/
 readmes_old/
 src_initial/
+generated_readmes/
+# generated_readmes_token_stats/
+old/
+analysis/

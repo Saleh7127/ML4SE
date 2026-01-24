@@ -1,6 +1,8 @@
 # python src/workflows/main.py --repo_name ThatGuyJacobee__Elite-Music  --plan my_plan.json
 
 import operator
+import argparse
+import csv
 import sys
 import os
 import time
@@ -187,9 +189,9 @@ def aggregator_node(state: WorkflowState):
             
     final_md = agent.aggregate(sections)
     
-    output_dir = os.path.join(os.getcwd(), "readmes", state["repo_name"])
+    output_dir = os.path.join(os.getcwd(), "generated_readmes")
     os.makedirs(output_dir, exist_ok=True)
-    output_path = os.path.join(output_dir, "README.md")
+    output_path = os.path.join(output_dir, f"{state['repo_name']}.md")
     with open(output_path, "w") as f:
         f.write(final_md)
         
@@ -242,7 +244,6 @@ workflow.add_conditional_edges(
 app = workflow.compile()
 
 if __name__ == "__main__":
-    import argparse
     
     parser = argparse.ArgumentParser(description="Orchestrator V2 for README Generation")
     parser.add_argument("--repo_name", type=str, required=True, help="Name of the repository directory in data/repositories")
@@ -319,15 +320,24 @@ if __name__ == "__main__":
         "completion_tokens": token_cb.completion_tokens,
     }
     
-    output_dir = os.path.join(os.getcwd(), "readmes", repo_name)
+    output_dir = os.path.join(os.getcwd(), "generated_readmes_token_stats")
     os.makedirs(output_dir, exist_ok=True)
-    report_path = os.path.join(output_dir, "report.json")
+    report_path = os.path.join(output_dir, "stats.csv")
     
-    with open(report_path, "w") as f:
-        json.dump(report, f, indent=2)
-        
-    print("-" * 30)
-    print(f"Performance Report saved to: {report_path}")
-    print(f"Time Taken: {duration:.2f}s")
-    print(f"Total Tokens: {token_cb.total_tokens}")
-    print("-" * 30)
+    file_exists = os.path.exists(report_path)
+    fieldnames = ["repo_name", "duration_seconds", "total_tokens", "prompt_tokens", "completion_tokens"]
+    
+    try:
+        with open(report_path, "a", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            if not file_exists:
+                writer.writeheader()
+            writer.writerow(report)
+            
+        print("-" * 30)
+        print(f"Performance Report appended to: {report_path}")
+        print(f"Time Taken: {duration:.2f}s")
+        print(f"Total Tokens: {token_cb.total_tokens}")
+        print("-" * 30)
+    except Exception as e:
+        print(f"Error writing to CSV: {e}")
