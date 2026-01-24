@@ -1,9 +1,9 @@
 """
-Delete README files from all repositories under data/repository.
+Delete README files from all repositories under data/repositories.
 
 Usage:
     python scripts/remove_readmes.py \
-        --repos-root data/repository \
+        --repos-root data/repositories \
         [--filenames README.md README.txt] \
         [--dry-run]
 
@@ -19,7 +19,7 @@ from typing import List, Set
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Remove README files from repositories.")
-    parser.add_argument("--repos-root", default="data/repository", help="Path containing cloned repositories.")
+    parser.add_argument("--repos-root", default="data/repositories", help="Path containing cloned repositories.")
     parser.add_argument(
         "--filenames",
         nargs="*",

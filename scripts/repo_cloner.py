@@ -23,8 +23,8 @@ from typing import Dict, Iterable, List, Optional, Tuple
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Download repositories from a JSONL dataset.")
-    parser.add_argument("--dataset", default="repos_dataset.jsonl", help="Path to JSONL dataset.")
-    parser.add_argument("--dest", default="downloaded_repos", help="Destination directory for clones.")
+    parser.add_argument("--dataset", default="data/repos_dataset.jsonl", help="Path to JSONL dataset.")
+    parser.add_argument("--dest", default="data/repositories", help="Destination directory for clones.")
     parser.add_argument("--workers", type=int, default=4, help="Number of concurrent clone workers.")
     parser.add_argument("--force", action="store_true", help="Re-clone repositories even if already present.")
     parser.add_argument("--limit", type=int, default=None, help="Limit how many repos to clone.")

@@ -1,11 +1,7 @@
 # Environment variables
 .env
 .env.local
-abandoned_repos_json/
-repositories/
-knowledge_base/
-readmes/
-src_initial/
+
 # Python
 __pycache__/
 *.py[cod]
@@ -28,3 +24,12 @@ ENV/
 .DS_Store
 Thumbs.db
 
+
+data_old/
+abandoned_repos_json/
+repositories/
+knowledge_base/
+knowledge_base_old/
+readmes/
+readmes_old/
+src_initial/

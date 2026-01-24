@@ -3,7 +3,7 @@ Extract README.md files from repositories and copy them to a separate folder.
 
 Usage:
     python scripts/extract_readmes.py \
-        --repos-root data/repository \
+        --repos-root data/repositories \
         --output-dir data/readmes
 """
 
@@ -15,7 +15,7 @@ from typing import List, Optional
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Extract README.md files from repositories.")
-    parser.add_argument("--repos-root", default="data/repository", help="Path containing cloned repositories.")
+    parser.add_argument("--repos-root", default="data/repositories", help="Path containing cloned repositories.")
     parser.add_argument("--output-dir", default="data/readmes", help="Directory where README copies will be saved.")
     parser.add_argument(
         "--filenames",

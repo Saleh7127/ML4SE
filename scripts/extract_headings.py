@@ -58,7 +58,7 @@ def extract_headings(path: Path) -> List[Dict[str, str]]:
             match = HEADING_RE.match(stripped)
             if match:
                 level = len(match.group(1))
-                if level > 3:
+                if level > 2:
                     continue
                 raw_text = match.group(2).strip()
                 text = clean_heading(raw_text)
