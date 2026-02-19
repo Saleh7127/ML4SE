@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-def generate_file_tree(start_path: str, max_depth: int = 2) -> str:
+def generate_file_tree(start_path: str, max_depth: int = 3) -> str:
     """
     Generates a string representation of the file tree structure starting from start_path.
     Respects common ignore patterns.

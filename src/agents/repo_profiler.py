@@ -24,8 +24,18 @@ class UnifiedRepoProfiler:
         try:
             store = get_vector_store(repo_name)
             retriever = get_retriever(store)
-            docs = retriever.invoke("installation instructions usage examples configuration settings main features")
-            context = "\n\n".join([f"...{d.page_content}..." for d in docs[:5]])
+            queries = [
+                "project description purpose overview what is this",
+                "installation setup requirements dependencies how to install",
+                "usage examples features configuration how to use",
+            ]
+            all_docs, seen = [], set()
+            for q in queries:
+                for d in retriever.invoke(q)[:4]:
+                    if d.page_content not in seen:
+                        seen.add(d.page_content)
+                        all_docs.append(d)
+            context = "\n\n".join([f"...{d.page_content}..." for d in all_docs[:10]])
         except Exception as e:
             print(f"Vector Store access failed: {e}")
             context = "Vector store unavailable."

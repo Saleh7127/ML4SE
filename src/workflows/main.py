@@ -320,7 +320,7 @@ if __name__ == "__main__":
         "completion_tokens": token_cb.completion_tokens,
     }
     
-    output_dir = os.path.join(os.getcwd(), "generated_readmes_token_stats")
+    output_dir = os.path.join(os.getcwd(), "generated-readmes-token-stats")
     os.makedirs(output_dir, exist_ok=True)
     report_path = os.path.join(output_dir, "stats.csv")
     

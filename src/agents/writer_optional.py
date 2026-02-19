@@ -20,8 +20,12 @@ class OptionalWriter:
         try:
             store = get_vector_store(profile.name)
             retriever = get_retriever(store)
-            docs = retriever.invoke(f"{section} contribution license details")
-            context = "\n\n".join([d.page_content[:1000] for d in docs[:3]])
+            # Use section title + planner instructions as a dynamic, section-specific query
+            # instead of a hardcoded generic suffix that pulls irrelevant docs.
+            instructions_hint = (instructions or "")[:120].strip()
+            query = f"{section} {instructions_hint}".strip()
+            docs = retriever.invoke(query)
+            context = "\n\n".join([d.page_content[:1500] for d in docs[:5]])
         except Exception as e:
             context = ""
 

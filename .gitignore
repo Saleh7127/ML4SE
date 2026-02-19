@@ -24,7 +24,7 @@ ENV/
 .DS_Store
 Thumbs.db
 
-
+data-mining/
 data_old/
 abandoned_repos_json/
 repositories/

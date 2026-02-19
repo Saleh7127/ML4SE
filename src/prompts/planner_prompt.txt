@@ -17,21 +17,24 @@ Create a JSON `ReadmePlan` with only the sections that are actually relevant.
 3. Always include:
 
    * Introduction
-   * Installation (only if installable)
-   * Usage (only if runnable)
+   * Installation (only if `install_methods` is non-empty)
+   * Usage (only if `commands` or `usage_snippets` are non-empty)
    * License
-4. Enable conditional sections ONLY if evidence exists:
+4. Enable conditional sections ONLY if the corresponding profile field provides evidence:
 
-   * `configuration` → config options exist
-   * `api_reference` → API surface exists
-   * `examples` → examples or notebooks exist
-   * `project_structure` → meaningful directory structure
-   * `tests_ci` → tests exist
-   * `screenshots_demos` → images/demos present
+   * `configuration` → `config_options` is non-empty
+   * `api_reference` → API surface exists in context
+   * `examples` → `has_examples` is true
+   * `project_structure` → meaningful directory structure visible in the file tree
+   * `tests_ci` → tests exist in file tree
+   * `contributing` → `has_contributing` is true
+   * `changelog` → `has_changelog` is true
 5. **For each section, provide specific instructions:**
-   * Tell the writer exactly which fields from the profile to use (e.g., `install_methods`, `commands`, `key_features`).
+   * Tell the writer exactly which profile fields to use (e.g., `install_methods`, `commands`, `key_features`).
    * **CRITICAL**: Explicitly state what should NOT be included to avoid overlap with other sections.
-   * *Example*: "Include the `pip install` command from `install_methods`. Do NOT mention usage commands here - those belong in the Usage section."
+   * For the Introduction section, always add: "Use the `description` field verbatim as the opening sentence if non-null. Then add at most 1–2 sentences from `key_features`. Include `homepage_url` as a link if non-null. Do NOT mention install or usage commands."
+   * For the License section, always add: "Use the `license_name` field if non-null. State the license name and link to the LICENSE file. Maximum 2 sentences."
+   * *Example for Installation*: "Include the `pip install` command from `install_methods`. Do NOT mention usage commands here — those belong in the Usage section."
 6. Output must be **strict JSON only**, no explanations.
 
 **Output (JSON):**
