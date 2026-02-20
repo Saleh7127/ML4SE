@@ -2,7 +2,7 @@
 Call an LLM via LangChain to derive a common README pattern from heading JSONL.
 
 Usage:
-    python scripts/generate_pattern_via_llm.py \
+    python scripts/readme_pattern_via_llm.py \
         --input data/readme_headings.jsonl \
         --model gpt-5.1 \
         --max-repos 20
@@ -26,7 +26,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--input", default="data/readme_headings.jsonl", help="Heading JSONL produced by extract_headings.py")
     parser.add_argument("--model", default="gpt-5.1", help="Chat model name")
     parser.add_argument("--temperature", type=float, default=0.7, help="LLM temperature")
-    parser.add_argument("--max-repos", type=int, default=20, help="Limit how many repos to include in the prompt")
+    parser.add_argument("--max-repos", type=int, default=200, help="Limit how many repos to include in the prompt")
     parser.add_argument("--output", default="data/readme_pattern_llm.json", help="Where to write the pattern JSON.")
     return parser.parse_args()
 

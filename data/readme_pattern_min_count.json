@@ -4,63 +4,63 @@
       "id": "intro",
       "title": "Overview",
       "purpose": "Explain what the project is and why it exists",
-      "count": 4
+      "count": 62
     },
     {
       "id": "features",
       "title": "Features",
       "purpose": "Highlight main capabilities",
-      "count": 16
+      "count": 95
     },
     {
       "id": "install",
       "title": "Installation",
       "purpose": "Explain how to install",
-      "count": 25
+      "count": 208
     },
     {
       "id": "usage",
       "title": "Usage",
       "purpose": "Show basic usage",
-      "count": 14
+      "count": 140
     },
     {
       "id": "examples",
       "title": "Examples",
       "purpose": "Show extended examples",
-      "count": 7
+      "count": 51
     },
     {
       "id": "config",
       "title": "Configuration",
       "purpose": "Document config options",
-      "count": 9
+      "count": 68
     },
     {
       "id": "contrib",
       "title": "Contributing",
       "purpose": "Explain how to contribute",
-      "count": 19
+      "count": 112
     },
     {
       "id": "license",
       "title": "License",
       "purpose": "State license",
-      "count": 18
+      "count": 147
     }
   ],
   "proposed_order": [
     "intro",
     "features",
     "install",
-    "examples",
     "usage",
     "config",
+    "examples",
     "contrib",
     "license"
   ],
   "meta": {
-    "total_readmes": 20,
+    "total_readmes": 200,
     "min_count": 2
   }
 }

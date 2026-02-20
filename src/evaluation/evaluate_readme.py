@@ -4,7 +4,7 @@ import csv
 from rouge import Rouge
 
 
-# python src/evaluation/evaluate_readme.py --repo ThatGuyJacobee__Elite-Music --gen generated_readmes/ThatGuyJacobee__Elite-Music/README.md --ref data/readmes/ThatGuyJacobee__Elite-Music.md
+# python src/evaluation/evaluate_readme.py --repo <repo-name> --gen generated_readmes/<repo-name>.md --ref data/readmes/<repo-name>.md
 
 def load_text(path):
     if not os.path.exists(path):

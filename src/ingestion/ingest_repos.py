@@ -18,6 +18,18 @@ load_dotenv()
 # Or use the default directory
 # python src/ingestion/ingest_repos.py
 
+def sanitize_file_paths(file_paths: list[str], repo_name: str) -> list[str]:
+    """
+    Strips the repo name prefix from file paths if the LLM returns them with it.
+    e.g. '1rgs__nanocode/nanocode.py' -> 'nanocode.py'
+    """
+    sanitized = []
+    prefix = repo_name + "/"
+    for path in file_paths:
+        if path.startswith(prefix):
+            path = path[len(prefix):]
+        sanitized.append(path)
+    return sanitized
 
 def main():
     parser = argparse.ArgumentParser(description="Ingest repositories for ML4SE")
@@ -51,6 +63,7 @@ def main():
         print(f"Librarian identified {len(essential_files)} essential files: {essential_files}")
         
         if essential_files:
+            essential_files = sanitize_file_paths(essential_files, repo_name)
             ingest_repo(repo_name, essential_files, repo_path)
         else:
             print("No essential files identified. Skipping ingestion.")
@@ -74,6 +87,7 @@ def main():
             print(f"Librarian identified {len(essential_files)} essential files: {essential_files}")
             
             if essential_files:
+                essential_files = sanitize_file_paths(essential_files, repo_name)
                 ingest_repo(repo_name, essential_files, repo_path)
             else:
                 print("No essential files identified. Skipping ingestion.")

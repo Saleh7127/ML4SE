@@ -295,7 +295,7 @@ if __name__ == "__main__":
         "section_retries": {}
     }
     
-    print("Starting Orchestrator V2...")
+    print("Starting Orchestrator ...")
     print(f"Repository: {repo_name}")
     print(f"Path: {repo_path}")
     if initial_plan:
