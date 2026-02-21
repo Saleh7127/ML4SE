@@ -15,7 +15,7 @@ class ReviewResult(BaseModel):
 
 class Reviewer:
     def __init__(self, model_name: str = "gpt-5.1"):
-        self.llm = ChatOpenAI(model=model_name, temperature=0.1)
+        self.llm = ChatOpenAI(model=model_name, temperature=0.7)
         
         prompt_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "prompts/reviewer_prompt.txt")
         with open(prompt_path, "r") as f:

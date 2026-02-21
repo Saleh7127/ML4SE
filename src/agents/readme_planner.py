@@ -8,7 +8,7 @@ from src.models.readme_plan import ReadmePlan
 
 class ReadmePlanner:
     def __init__(self, model_name: str = "gpt-5.1"):
-        self.llm = ChatOpenAI(model=model_name, temperature=0.3)
+        self.llm = ChatOpenAI(model=model_name, temperature=0.7)
         
         prompt_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "prompts/planner_prompt.txt")
         with open(prompt_path, "r") as f:

@@ -14,17 +14,33 @@ def generate_file_tree(start_path: str, max_depth: int = 3) -> str:
     
     # Common ignore patterns
     IGNORE_DIRS = {
-        '.git', 'node_modules', '__pycache__', '.idea', '.vscode', 'venv', 'env', 
-        'build', 'dist', 'target', '.DS_Store', 'coverage', '.pytest_cache'
+        '.git', '.idea', '.vscode', '.vs',
+        '__pycache__', 'venv', 'env', '.eggs', '.pytest_cache', '.mypy_cache', '.tox',
+        'node_modules', '.next', '.nuxt',
+        'target', '.gradle',
+        'bin', 'obj', 'packages',
+        'vendor',
+        'build', 'dist', 'out', '.cache', 'coverage',
+        '.DS_Store', '__MACOSX',
     }
     IGNORE_FILES = {
-        '.DS_Store', 'package-lock.json', 'yarn.lock', 'poetry.lock', 
-        'Cargo.lock', '.gitignore', '.env'
+        '.DS_Store',
+        'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml',
+        'poetry.lock', 'Cargo.lock',
+        'go.sum',
+        '.gitignore', '.env',
     }
 
     IGNORE_EXTENSIONS = {
-        '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.css', 
-        '.woff', '.woff2', '.ttf', '.eot', '.mp4', '.pdf', '.zip', '.gz'
+        '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico',
+        '.woff', '.woff2', '.ttf', '.eot',
+        '.mp4', '.pdf', '.zip', '.gz', '.tar',
+        '.css', '.scss', '.sass', '.less',
+        '.class', '.jar', '.war', '.ear',
+        '.dll', '.exe', '.pdb', '.nupkg', '.suo',
+        '.pyc', '.pyo', '.pyd',
+        '.o', '.a', '.so', '.dylib', '.lib',
+        '.test',
     }
 
     def _tree(dir_path: Path, prefix: str = "", current_depth: int = 0):
