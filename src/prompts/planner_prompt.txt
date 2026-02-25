@@ -13,7 +13,11 @@ Create a JSON `ReadmePlan` with only the sections that are actually relevant.
 
 1. **Only include a section if the Repo Profile provides real data for it.**
 2. **Do NOT include everything from the template.**
-   The outline should be **short (6–10 sections max)**.
+   Adapt the number of sections to the richness of the Repo Profile:
+   - **≤ 5 non-empty fields** → keep the outline at **4–6 sections** (simple/minimal repo)
+   - **6–8 non-empty fields** → aim for **6–9 sections** (typical repo)
+   - **> 8 non-empty fields** → prefer **8–12 sections** (rich/complex repo)
+   Count a field as non-empty if it is a non-null string, a non-empty list, or `true`.
 3. Always include:
 
    * Introduction

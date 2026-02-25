@@ -322,7 +322,7 @@ if __name__ == "__main__":
     
     output_dir = os.path.join(os.getcwd(), "generated-readmes-token-stats")
     os.makedirs(output_dir, exist_ok=True)
-    report_path = os.path.join(output_dir, "stats.csv")
+    report_path = os.path.join(output_dir, "token_stats.csv")
     
     file_exists = os.path.exists(report_path)
     fieldnames = ["repo_name", "duration_seconds", "total_tokens", "prompt_tokens", "completion_tokens"]
