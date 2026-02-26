@@ -1,3 +1,4 @@
+repo_name,duration_seconds,total_tokens,prompt_tokens,completion_tokens
 facebookresearch__cwm,100.17,64323,52669,11654
 aeromomo__claw-compactor,150.35,84231,61000,23231
 XiaomiMiMo__MiMo-Audio,117.12,58987,46612,12375
