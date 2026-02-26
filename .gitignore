@@ -32,7 +32,9 @@ knowledge_base/
 knowledge_base_old/
 readmes/
 readmes_old/
+readme-plan/
 src_initial/
+plan_generated_readmes/
 generated_readmes/
 # generated_readmes_token_stats/
 old/

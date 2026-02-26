@@ -1,4 +1,4 @@
-# python src/workflows/main.py --repo_name ThatGuyJacobee__Elite-Music  --plan my_plan.json
+# python src/workflows/main.py --repo_name <repo-name>  --plan <plan-name>.json
 
 import operator
 import argparse
