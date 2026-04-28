@@ -7,8 +7,7 @@ def identify_essential_files(file_tree_str: str) -> list[str]:
     """
     Uses an LLM to identify essential files from a file tree string.
     """
-    
-    # Load prompt
+
     prompt_path = os.path.join(os.path.dirname(__file__), "librarian_prompt.txt")
     with open(prompt_path, "r") as f:
         prompt_template_str = f.read()
@@ -18,7 +17,7 @@ def identify_essential_files(file_tree_str: str) -> list[str]:
         input_variables=["file_tree"]
     )
 
-    llm = ChatOpenAI(temperature=0.3, model_name="gpt-5-mini")
+    llm = ChatOpenAI(temperature=0.7, model_name="gpt-5.1")
 
     chain = prompt | llm
 
@@ -26,7 +25,6 @@ def identify_essential_files(file_tree_str: str) -> list[str]:
         response = chain.invoke({"file_tree": file_tree_str})
         content = response.content.strip()
         
-        # Handle potential markdown fencing
         if content.startswith("```json"):
             content = content.replace("```json", "").replace("```", "")
         elif content.startswith("```"):

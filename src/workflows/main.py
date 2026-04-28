@@ -272,11 +272,8 @@ if __name__ == "__main__":
             with open(args.plan, "r") as f:
                 plan_data = json.load(f)
             
-            # Use pydantic model to validate and parse
-            # Allowing for simple dict input, ensuring it matches structure
             initial_plan = ReadmePlan(**plan_data)
             
-            # Auto-populate status for enabled sections
             initial_section_status = {s.id: "pending" for s in initial_plan.sections if s.enabled}
             print(f" Loaded User Plan with {len(initial_section_status)} sections.")
             
@@ -304,14 +301,12 @@ if __name__ == "__main__":
     start_time = time.time()
     token_cb = TokenCountingCallback()
     
-    # Run with callback
     for event in app.stream(initial_state, config={"callbacks": [token_cb]}):
         pass
             
     end_time = time.time()
     duration = end_time - start_time
     
-    # Generate Report
     report = {
         "repo_name": repo_name,
         "duration_seconds": round(duration, 2),

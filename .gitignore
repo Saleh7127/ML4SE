@@ -36,6 +36,11 @@ readme-plan/
 src_initial/
 plan_generated_readmes/
 generated_readmes/
-# generated_readmes_token_stats/
+generated_readmes_token_stats/
 old/
 analysis/
+no_commit/
+plots/
+plotsnew/
+initial_plots/
+results/

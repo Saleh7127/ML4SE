@@ -61,19 +61,24 @@ python src/ingestion/ingest_repos.py \
 
 Once repositories are ingested, generate README files using the main workflow:
 
-#### With a Custom Plan
-Provide your own README structure plan:
+
+#### With Single Agent
 ```bash
-python src/workflows/main.py \
---repo_name sample_repository \
---plan my_plan.json
+python single-agent/baseline_single_agent.py \
+--repo_name <repo-name>
 ```
 
-#### Without a Custom Plan
-Let the system automatically create the structure:
+#### With Multi Agent
 ```bash
 python src/workflows/main.py \
---repo_name sample_repository
+--repo_name <repo-name>
+```
+
+#### With Multi Agent and Dev-guided Plan
+```bash
+python src/workflows/main.py \
+--repo_name <repo-name> \
+--plan <plan-name>.json
 ```
 
 ## Command Reference
@@ -96,9 +101,8 @@ python src/workflows/main.py \
 ```
 ML4SE/
 ├── data/                           # Default location for repositories
-├── generated_readmes/              # Output directory for generated READMEs
-├── generated_readmes_token_stats/  # Token usage statistics
 ├── scripts/                        # Utility scripts
+├── single-agent/                   # Single agent baseline
 ├── src/
 │   ├── agents/                     # Agent implementations
 │   ├── evaluation/                 # Evaluation metrics and tools

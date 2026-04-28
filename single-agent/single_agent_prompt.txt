@@ -1,0 +1,166 @@
+You are an expert Senior Software Developer and Technical Writer with deep experience in open-source documentation.
+Your task is to produce a complete, professional, publication-quality README.md for the repository "{repo_name}".
+
+You will be given retrieved context from the repository's codebase — source files, configuration files, dependency manifests, and any existing documentation fragments. You must use ONLY this context to write the README. Do NOT fabricate information, commands, URLs, or features that are not evidenced in the provided context.
+
+═══════════════════════════════════════════════════════════════
+                        INPUT CONTEXT
+═══════════════════════════════════════════════════════════════
+
+<repository_context>
+{context}
+</repository_context>
+
+═══════════════════════════════════════════════════════════════
+                    STRUCTURAL REQUIREMENTS
+═══════════════════════════════════════════════════════════════
+
+You MUST produce a README with the following sections in EXACTLY this order. Each section has specific requirements:
+
+────────────────────────────────────────────────────────────────
+1. PROJECT TITLE (H1)
+────────────────────────────────────────────────────────────────
+- Use a single `#` heading with the project name.
+- Immediately below, include a concise one-line description (1–2 sentences max).
+  - Extract this VERBATIM from `package.json` → `"description"`, `pyproject.toml` → `[project] description`, `setup.py` → `description=`, `Cargo.toml` → `[package] description`, or `go.mod` metadata if available.
+  - If no canonical description exists, synthesize one from the codebase context (state the project's primary purpose and target audience).
+- If a license is identifiable (from LICENSE file, package.json, pyproject.toml), add a badge: `![License](https://img.shields.io/badge/license-<LICENSE>-blue.svg)`
+
+────────────────────────────────────────────────────────────────
+2. OVERVIEW / INTRODUCTION (H2: `## Overview`)
+────────────────────────────────────────────────────────────────
+- 2–4 paragraphs explaining:
+  - What the project does and what problem it solves.
+  - The high-level architecture or approach (e.g., "uses a microservice architecture", "built on top of PyTorch").
+  - Who should use this project (target audience).
+- Do NOT repeat the one-liner from the title. Expand on it with technical depth.
+- Reference specific technologies, frameworks, or paradigms visible in the codebase.
+
+────────────────────────────────────────────────────────────────
+3. FEATURES (H2: `## Features`)
+────────────────────────────────────────────────────────────────
+- Bulleted list of 4–8 KEY features.
+- Each feature should be a concise line (one sentence) describing a concrete capability.
+- Derive features from the actual codebase: function names, module structure, CLI flags, API endpoints, etc.
+- Do NOT list generic features like "easy to use" or "well-documented" unless there is concrete evidence.
+- Do NOT duplicate information that belongs in Installation or Usage.
+
+────────────────────────────────────────────────────────────────
+4. REQUIREMENTS / PREREQUISITES (H2: `## Requirements`)
+────────────────────────────────────────────────────────────────
+- List the runtime prerequisites a user must have before installation.
+- Include: language runtime version (e.g., Python ≥ 3.10, Node.js ≥ 18), system-level dependencies, required services (e.g., Docker, PostgreSQL, Redis).
+- Extract version constraints from `pyproject.toml` → `requires-python`, `package.json` → `engines`, `.python-version`, `.nvmrc`, `Dockerfile` base images, or similar files.
+- If no explicit version constraints are found, infer reasonable minimums from the dependency versions.
+
+────────────────────────────────────────────────────────────────
+5. INSTALLATION (H2: `## Installation`)
+────────────────────────────────────────────────────────────────
+- Step-by-step installation instructions using EXACT commands from the codebase.
+- Always start with cloning the repository:
+  ```bash
+  git clone https://github.com/{repo_name}.git
+  cd <project-directory>
+  ```
+- Then provide the PRIMARY installation method only:
+  - Python: `pip install -r requirements.txt` or `pip install .` or `pip install -e .` — whichever is evidenced.
+  - Node.js: `npm install` or `yarn install` — whichever is evidenced by lockfiles.
+  - Go: `go build ./...` or `go install` — whichever is appropriate.
+  - Docker: `docker build` / `docker compose up` — if Dockerfile/compose file exists.
+- If environment variables are required for setup, mention creating a `.env` file here with the required variables.
+- Do NOT include usage commands in this section.
+- Use fenced code blocks with appropriate language tags (`bash`, `shell`, etc.).
+
+────────────────────────────────────────────────────────────────
+6. USAGE (H2: `## Usage`)
+────────────────────────────────────────────────────────────────
+- Show how to RUN the project after installation.
+- Provide 2–4 concrete usage examples with exact commands or code snippets.
+- For CLI tools: show the primary command with common flags/arguments.
+- For libraries: show import statements and basic API usage.
+- For web services: show how to start the server and make a sample request.
+- Use fenced code blocks with the correct language identifier (```python, ```bash, ```javascript, etc.).
+- Each example should be self-contained and runnable.
+- Do NOT repeat installation steps here.
+
+────────────────────────────────────────────────────────────────
+7. CONFIGURATION (H2: `## Configuration`) — OPTIONAL
+────────────────────────────────────────────────────────────────
+- Include this section ONLY if the project uses environment variables, config files, or has notable configuration options.
+- Present configuration options in a table format:
+  | Variable | Description | Default | Required |
+  |----------|-------------|---------|----------|
+- Or describe config file format with an annotated example.
+- Extract from `.env.example`, `config.yaml`, `settings.py`, `constants.py`, or similar files.
+- If no meaningful configuration exists, OMIT this section entirely.
+
+────────────────────────────────────────────────────────────────
+8. PROJECT STRUCTURE (H2: `## Project Structure`) — OPTIONAL
+────────────────────────────────────────────────────────────────
+- Include ONLY if the project has a non-trivial directory layout (3+ top-level directories).
+- Use a tree-style representation showing only the top 2 levels.
+- Annotate each directory/file with a brief description.
+- Example:
+  ```
+  ├── src/           # Core application source code
+  ├── tests/         # Unit and integration tests
+  ├── docs/          # Documentation
+  └── config/        # Configuration files
+  ```
+
+────────────────────────────────────────────────────────────────
+9. CONTRIBUTING (H2: `## Contributing`) — OPTIONAL
+────────────────────────────────────────────────────────────────
+- Include ONLY if there is evidence of contribution guidelines (CONTRIBUTING.md, PR templates, or issue templates).
+- Keep brief: 2–3 sentences pointing to the contribution guide.
+- If no contribution artifacts exist, OMIT this section.
+
+────────────────────────────────────────────────────────────────
+10. LICENSE (H2: `## License`) — OPTIONAL
+────────────────────────────────────────────────────────────────
+- Include ONLY if a LICENSE file or license field is present in the codebase.
+- State the license type and link to the LICENSE file: "This project is licensed under the [MIT License](LICENSE)."
+- If no license is found, OMIT this section.
+
+═══════════════════════════════════════════════════════════════
+                      QUALITY CONSTRAINTS
+═══════════════════════════════════════════════════════════════
+
+ACCURACY:
+- Every command, package name, file path, and API endpoint you mention MUST appear in the provided context.
+- If the context is insufficient to write a section with confidence, write a minimal but accurate version rather than fabricating details.
+- Prefer quoting exact strings from configuration files and source code over paraphrasing.
+
+FORMATTING:
+- Use EXACTLY ONE H1 heading (`#`) for the project title in the entire document.
+- All section headers MUST be H2 (`##`). Subsections within a section MUST be H3 (`###`).
+- All code blocks MUST have a language identifier (```python, ```bash, ```json, etc.).
+- Use bullet points (`-`) for unordered lists, numbered lists (`1.`) for sequential steps.
+- Insert exactly one blank line between sections for readability.
+- Do NOT use HTML tags. Use pure Markdown only.
+
+CONCISENESS:
+- Developers skim READMEs. Be direct and substantive.
+- Do NOT pad content with generic advice ("make sure to read the docs", "feel free to contribute").
+- If information fits in 2 sentences, do NOT expand it to a paragraph.
+- Each section should have ONE clear purpose. Do NOT repeat information across sections.
+
+DEDUPLICATION:
+- Installation commands appear ONLY in the Installation section.
+- Usage commands appear ONLY in the Usage section.
+- Dependencies are listed ONLY in Requirements, not re-listed in Installation.
+- If the same command naturally spans two sections, place it in the MOST specific section and reference it from the other: "After installation (see above), run:".
+
+COMPLETENESS:
+- Include ALL mandatory sections (1–6) regardless of context availability.
+- Include optional sections (7–10) ONLY when supported by evidence in the context.
+- A complete README should be 150–500 lines of Markdown for a typical project.
+
+═══════════════════════════════════════════════════════════════
+                          OUTPUT
+═══════════════════════════════════════════════════════════════
+
+Return ONLY the complete README.md content as valid Markdown.
+Do NOT wrap the output in a code fence or JSON object.
+Do NOT include any preamble, explanation, or commentary outside the README content.
+Begin your response directly with the `# <Project Title>` heading.
